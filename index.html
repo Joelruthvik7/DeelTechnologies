@@ -1,0 +1,1405 @@
+<!-- START OF FILE DT-CA4.html -->
+
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Deel Technologies | Enterprise IT Staffing & Consulting</title>
+    
+    <!-- Design & Animation Dependencies -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="https://unpkg.com/@studio-freight/lenis@1.0.33/dist/lenis.min.js"></script>
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
+        
+        :root {
+            --accent: #2563eb;
+            --accent-dark: #1e40af;
+            --enterprise-navy: #0f172a;
+            --matte-bg: #f8fafc;
+            --section-alt: #f1f5f9;
+            --section-tint: #eff6ff;
+        }
+
+        body { 
+            font-family: 'Plus Jakarta Sans', sans-serif; 
+            background-color: var(--matte-bg);
+            color: #1e293b;
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        /* --- SMOOTH SCROLL ENGINE --- */
+        html.lenis { height: auto; }
+        .lenis.lenis-smooth { scroll-behavior: auto !important; }
+        .lenis.lenis-smooth [data-lenis-prevent] { overscroll-behavior: contain; }
+        .lenis.lenis-stopped { overflow: hidden; }
+
+        /* --- PREMIUM UI & COLORING --- */
+        .glass-nav {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(37, 99, 235, 0.1);
+        }
+
+        .section-gradient-blue {
+            background: linear-gradient(180deg, #ffffff 0%, var(--section-tint) 100%);
+        }
+
+        .section-gradient-slate {
+            background: linear-gradient(180deg, var(--section-alt) 0%, #ffffff 100%);
+        }
+
+        .bento-grid-item {
+            background: #ffffff;
+            border: 1px solid rgba(37, 99, 235, 0.1);
+            transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+            box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.05);
+        }
+
+        .bento-grid-item:hover {
+            border-color: var(--accent);
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 30px 60px -15px rgba(37, 99, 235, 0.15);
+        }
+
+        /* --- SCROLL PROGRESS --- */
+        #scroll-progress {
+            position: fixed;
+            top: 0; left: 0; width: 0%; height: 3px;
+            background: linear-gradient(90deg, var(--accent), #818cf8);
+            z-index: 1001;
+        }
+
+        /* --- CURSOR --- */
+        #custom-cursor {
+            width: 20px; height: 20px; background: var(--accent);
+            border-radius: 50%; position: fixed; pointer-events: none;
+            z-index: 9999; mix-blend-mode: difference;
+            transition: transform 0.2s;
+        }
+
+        /* --- ANIMATION HELPERS --- */
+        .reveal { opacity: 0; transform: translateY(40px); }
+        .img-reveal { clip-path: inset(0 100% 0 0); transition: clip-path 1.2s cubic-bezier(0.77, 0, 0.175, 1); }
+        .img-reveal.active { clip-path: inset(0 0 0 0); }
+
+        /* --- TEAM CARD --- */
+        .team-image-wrapper { position: relative; overflow: hidden; border-radius: 24px; }
+        .team-image-wrapper img { transition: transform 0.8s ease; }
+        .team-card:hover img { transform: scale(1.1); }
+
+        /* --- FAQ ACCORDION --- */
+        .faq-content { max-height: 0; overflow: hidden; transition: max-height 0.3s ease-out; }
+        .faq-item.active .faq-content { max-height: 400px; }
+        .faq-item.active i { transform: rotate(180deg); }
+
+        /* --- STEP INDICATORS --- */
+        .step-line::after {
+            content: ''; position: absolute; left: 50%; top: 100%; width: 2px; height: 100%;
+            background: linear-gradient(to bottom, var(--accent), transparent);
+        }
+
+        /* --- NEW ENHANCED STYLES --- */
+        .premium-job-card {
+            background: #ffffff;
+            border-left: 4px solid #2563eb;
+            transition: all 0.4s ease;
+        }
+        .premium-job-card:hover {
+            background: #f8fafc;
+            border-left-width: 12px;
+            transform: translateX(10px);
+        }
+        .tech-pill {
+            background: rgba(37, 99, 235, 0.05);
+            border: 1px solid rgba(37, 99, 235, 0.1);
+            color: #1e40af;
+            padding: 4px 12px;
+            border-radius: 8px;
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+        .infinite-scroll {
+            display: flex;
+            width: calc(250px * 14);
+            animation: scroll 40s linear infinite;
+        }
+        @keyframes scroll {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(calc(-250px * 7)); }
+        }
+        .form-input {
+            width: 100%;
+            background: white;
+            border: 1px solid #e2e8f0;
+            padding: 1rem;
+            border-radius: 12px;
+            outline: none;
+            transition: all 0.3s;
+        }
+        .form-input:focus {
+            border-color: #2563eb;
+            box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.1);
+        }
+        .linkedin-card {
+            background: linear-gradient(135deg, #0077b5 0%, #00a0dc 100%);
+            color: white;
+            border-radius: 30px;
+            padding: 40px;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            box-shadow: 0 20px 40px rgba(0, 119, 181, 0.2);
+        }
+    </style>
+</head>
+<body class="bg-grid">
+
+    <div id="scroll-progress"></div>
+    <div id="custom-cursor" class="hidden md:block"></div>
+
+    <!-- Navigation -->
+    <nav class="glass-nav fixed top-0 w-full z-[1000] transition-all duration-500" id="navbar">
+        <div class="max-w-7xl mx-auto px-6 lg:px-12">
+            <div class="flex justify-between h-20 items-center">
+                <div class="flex items-center gap-2 group cursor-pointer">
+                    <div class="w-10 h-10 bg-blue-600 rounded-xl flex items-center justify-center text-white font-black text-xl group-hover:rotate-12 transition-transform shadow-lg shadow-blue-200">D</div>
+                    <span class="text-2xl font-extrabold text-slate-900 tracking-tighter">Deel <span class="text-blue-600">Technologies</span></span>
+                </div>
+                <div class="hidden lg:flex space-x-10 text-[13px] font-bold uppercase tracking-widest text-slate-500">
+                    <a href="#home" class="nav-link hover:text-blue-600 transition">Home</a>
+                    <a href="#about" class="nav-link hover:text-blue-600 transition">About</a>
+                    <a href="#services" class="nav-link hover:text-blue-600 transition">Services</a>
+                    <a href="#tech" class="nav-link hover:text-blue-600 transition">Tech</a>
+                    <a href="#jobs" class="nav-link hover:text-blue-600 transition">Jobs</a>
+                    <a href="#contact" class="bg-slate-900 text-white px-8 py-3 rounded-full hover:bg-blue-600 transition-all shadow-lg hover:shadow-blue-200">Contact</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- HERO SECTION -->
+    <section id="home" class="relative min-h-screen flex items-center justify-center pt-20 overflow-hidden section-gradient-blue">
+        <div class="absolute top-20 left-[10%] w-64 h-64 bg-blue-400/10 rounded-full blur-[100px] animate-pulse"></div>
+        <div class="absolute bottom-20 right-[10%] w-96 h-96 bg-indigo-400/10 rounded-full blur-[100px] animate-pulse" style="animation-delay: 2s"></div>
+
+        <div class="max-w-7xl mx-auto px-6 relative z-10 text-center">
+            <div class="reveal inline-flex items-center gap-2 bg-blue-50 px-4 py-2 rounded-full mb-8 border border-blue-100 shadow-sm">
+                <span class="relative flex h-2 w-2">
+                    <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span>
+                    <span class="relative inline-flex rounded-full h-2 w-2 bg-blue-600"></span>
+                </span>
+                <span class="text-blue-700 text-[10px] font-black uppercase tracking-[0.2em]">Excellence in IT Staffing</span>
+            </div>
+            
+            <h1 class="reveal text-6xl md:text-8xl font-black text-slate-900 mb-10 tracking-tight leading-[0.9]">
+                Connecting the <span class="text-blue-600 italic">Right</span> Talent <br> 
+                <span class="relative">
+                    with the Right Opportunities
+                    <svg class="absolute -bottom-4 left-0 w-full" height="12" viewBox="0 0 400 12" fill="none"><path d="M2 10C60 4 120 4 180 6C240 8 300 10 398 2" stroke="#2563eb" stroke-width="4" stroke-linecap="round"/></svg>
+                </span>
+            </h1>
+
+            <p class="reveal text-xl md:text-2xl text-slate-600 max-w-4xl mx-auto mb-12 leading-relaxed font-medium">
+                At Deel Technologies, we are strategic partners dedicated to transforming the way businesses find, attract, and retain world-class IT talent.
+            </p>
+
+            <div class="reveal flex flex-col sm:flex-row justify-center gap-6 items-center">
+                <a href="#contact-center" class="bg-blue-600 text-white px-10 py-5 rounded-2xl font-bold text-lg hover:bg-slate-900 transition-all shadow-2xl shadow-blue-200">Find Your Next Consultant</a>
+                <a href="#jobs-portal" class="bg-white text-slate-900 border-2 border-slate-200 px-10 py-5 rounded-2xl font-bold text-lg hover:border-blue-600 transition-all">Submit Your Resume</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- NEW: WHY CHOOSE DEEL TECHNOLOGIES (STATS) -->
+    <section class="py-24 bg-white border-y border-slate-100">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="grid grid-cols-2 lg:grid-cols-4 gap-12">
+                <div class="reveal text-center">
+                    <div class="text-5xl font-black text-blue-600 mb-2 counter" data-target="2500">0</div>
+                    <p class="text-slate-500 font-bold uppercase tracking-widest text-xs">Consultants Placed</p>
+                </div>
+                <div class="reveal text-center" style="transition-delay: 0.1s">
+                    <div class="text-5xl font-black text-blue-600 mb-2 counter" data-target="98">0</div>
+                    <p class="text-slate-500 font-bold uppercase tracking-widest text-xs">Client Retention %</p>
+                </div>
+                <div class="reveal text-center" style="transition-delay: 0.2s">
+                    <div class="text-5xl font-black text-blue-600 mb-2 counter" data-target="15">0</div>
+                    <p class="text-slate-500 font-bold uppercase tracking-widest text-xs">Years of Excellence</p>
+                </div>
+                <div class="reveal text-center" style="transition-delay: 0.3s">
+                    <div class="text-5xl font-black text-blue-600 mb-2 counter" data-target="500">0</div>
+                    <p class="text-slate-500 font-bold uppercase tracking-widest text-xs">Active Projects</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- NEW: PREMIUM LINKEDIN ENGAGEMENT 1 -->
+    <section class="py-12 bg-white">
+        <div class="max-w-5xl mx-auto px-6">
+            <div class="reveal linkedin-card">
+                <div class="flex-1">
+                    <h4 class="text-2xl font-black mb-2">Connect with Our Executive Team</h4>
+                    <p class="opacity-90 mb-6 font-medium">Follow Deel Technologies on LinkedIn for exclusive hiring insights, technical trends, and real-time project updates.</p>
+                    <a href="https://linkedin.com" target="_blank" class="bg-white text-blue-600 px-8 py-3 rounded-full font-bold inline-flex items-center gap-2 hover:bg-slate-900 hover:text-white transition-all">
+                        Follow Our Journey <i data-lucide="external-link" class="w-4 h-4"></i>
+                    </a>
+                </div>
+                <div class="hidden md:block">
+                    <i data-lucide="linkedin" class="w-24 h-24 opacity-20"></i>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ABOUT SECTION -->
+    <section id="about" class="py-32 bg-white relative">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="grid lg:grid-cols-2 gap-20 items-center">
+                <div class="relative reveal">
+                    <div class="absolute -inset-10 bg-blue-50 rounded-[60px] -z-10 rotate-2"></div>
+                    <div class="img-reveal shadow-2xl rounded-[50px] overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&q=80" alt="Team" class="w-full">
+                    </div>
+                </div>
+                <div class="reveal">
+                    <h2 class="text-blue-600 font-black uppercase tracking-[0.3em] text-xs mb-4">About Deel Technologies</h2>
+                    <h3 class="text-5xl font-black text-slate-900 mb-8 leading-tight">Who We Are</h3>
+                    <p class="text-slate-600 text-lg mb-6">At Deel Technologies, we believe in the power of connections. Established as a premier US IT staffing and bench sales company, we specialize in bridging the gap between talent and opportunity.</p>
+                    <p class="text-slate-600 text-lg">Our team is passionate about matching top IT consultants with companies that prioritize innovation and performance.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- NEW: WHY CHOOSE US (EXPANDED) -->
+    <section id="why-us" class="py-32 bg-slate-50">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="text-center mb-20 reveal">
+                <h3 class="text-5xl font-black text-slate-900 mb-6">Why Organizations Choose Deel</h3>
+                <p class="text-slate-500 max-w-2xl mx-auto">Enterprise-grade delivery powered by specialized recruitment expertise.</p>
+            </div>
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <div class="reveal p-10 bg-white rounded-[40px] border border-slate-100 hover:shadow-xl transition-all">
+                    <div class="w-14 h-14 bg-blue-50 text-blue-600 rounded-2xl flex items-center justify-center mb-6"><i data-lucide="award"></i></div>
+                    <h5 class="text-xl font-bold mb-4">Industry Expertise</h5>
+                    <p class="text-slate-500 text-sm">Deep vertical knowledge in FinTech, Healthcare, and Cloud infrastructure.</p>
+                </div>
+                <div class="reveal p-10 bg-white rounded-[40px] border border-slate-100 hover:shadow-xl transition-all">
+                    <div class="w-14 h-14 bg-blue-50 text-blue-600 rounded-2xl flex items-center justify-center mb-6"><i data-lucide="users-2"></i></div>
+                    <h5 class="text-xl font-bold mb-4">Dedicated Recruiters</h5>
+                    <p class="text-slate-500 text-sm">One-on-one support from sourcing to successful onboarding.</p>
+                </div>
+                <div class="reveal p-10 bg-white rounded-[40px] border border-slate-100 hover:shadow-xl transition-all">
+                    <div class="w-14 h-14 bg-blue-50 text-blue-600 rounded-2xl flex items-center justify-center mb-6"><i data-lucide="zap"></i></div>
+                    <h5 class="text-xl font-bold mb-4">Rapid Response</h5>
+                    <p class="text-slate-500 text-sm">Shortlisted candidates presented within 48 to 72 hours of intake.</p>
+                </div>
+                <div class="reveal p-10 bg-white rounded-[40px] border border-slate-100 hover:shadow-xl transition-all">
+                    <div class="w-14 h-14 bg-blue-50 text-blue-600 rounded-2xl flex items-center justify-center mb-6"><i data-lucide="check-circle-2"></i></div>
+                    <h5 class="text-xl font-bold mb-4">Quality Assurance</h5>
+                    <p class="text-slate-500 text-sm">Multi-level technical screening and cultural fit assessment.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- COMPANY JOURNEY & MILESTONES -->
+    <section class="py-32 bg-white overflow-hidden">
+        <div class="max-w-7xl mx-auto px-6">
+            <h3 class="reveal text-4xl font-black text-center mb-20">Our Journey & Growth</h3>
+            <div class="relative">
+                <div class="hidden lg:block absolute top-1/2 left-0 w-full h-0.5 bg-blue-100 -translate-y-1/2"></div>
+                <div class="grid grid-cols-1 lg:grid-cols-4 gap-12">
+                    <div class="reveal relative bg-white p-8 rounded-3xl shadow-sm border border-slate-100">
+                        <div class="text-blue-600 font-black text-xl mb-2">2009</div>
+                        <h4 class="font-bold mb-2">Foundation</h4>
+                        <p class="text-sm text-slate-500">Deel Technologies was born with a mission to simplify IT recruitment.</p>
+                    </div>
+                    <div class="reveal relative bg-white p-8 rounded-3xl shadow-sm border border-slate-100">
+                        <div class="text-blue-600 font-black text-xl mb-2">2014</div>
+                        <h4 class="font-bold mb-2">Expansion</h4>
+                        <p class="text-sm text-slate-500">Established national bench sales operations and vendor networks.</p>
+                    </div>
+                    <div class="reveal relative bg-white p-8 rounded-3xl shadow-sm border border-slate-100">
+                        <div class="text-blue-600 font-black text-xl mb-2">2019</div>
+                        <h4 class="font-bold mb-2">Global Model</h4>
+                        <p class="text-sm text-slate-500">Reached a milestone of 1000+ active consultants across 40 states.</p>
+                    </div>
+                    <div class="reveal relative bg-white p-8 rounded-3xl shadow-sm border border-slate-100">
+                        <div class="text-blue-600 font-black text-xl mb-2">2024</div>
+                        <h4 class="font-bold mb-2">The Future</h4>
+                        <p class="text-sm text-slate-500">Pioneering AI-driven talent matching and managed services.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SERVICES SECTION -->
+    <section id="services" class="py-32 bg-slate-900 text-white relative overflow-hidden">
+        <div class="max-w-7xl mx-auto px-6 relative z-10">
+            <div class="text-center mb-24 reveal">
+                <h2 class="text-blue-400 font-black uppercase tracking-[0.3em] text-xs mb-4">Our Expertise</h2>
+                <h3 class="text-5xl font-black mb-8">Comprehensive IT Solutions</h3>
+            </div>
+            <div class="grid lg:grid-cols-2 gap-10">
+                <div class="reveal bg-white/5 p-16 rounded-[60px] border border-white/10">
+                    <h4 class="text-3xl font-bold mb-6 flex items-center gap-4"><i data-lucide="users" class="text-blue-500"></i> IT Staffing</h4>
+                    <p class="text-slate-400">Temporary staffing, permanent placement, and contract-to-hire solutions tailored to your culture.</p>
+                </div>
+                <div class="reveal bg-white/5 p-16 rounded-[60px] border border-white/10">
+                    <h4 class="text-3xl font-bold mb-6 flex items-center gap-4"><i data-lucide="trending-up" class="text-blue-500"></i> Bench Sales</h4>
+                    <p class="text-slate-400">Strategic marketing for bench consultants to secure high-value enterprise projects.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- NEW: CAREER DEVELOPMENT CENTER -->
+    <section class="py-32 bg-white">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="grid lg:grid-cols-2 gap-20 items-center">
+                <div class="reveal">
+                    <h2 class="text-blue-600 font-black uppercase tracking-[0.3em] text-xs mb-4">Career Growth</h2>
+                    <h3 class="text-5xl font-black text-slate-900 mb-8">Career Development Center</h3>
+                    <p class="text-slate-600 text-lg mb-10">We don't just place you in a job; we build your career. Our dedicated mentors provide the tools you need to excel in the modern tech landscape.</p>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                        <div class="flex items-start gap-4">
+                            <div class="text-blue-600 mt-1"><i data-lucide="file-edit" class="w-5 h-5"></i></div>
+                            <div><h6 class="font-bold">Resume Enhancement</h6><p class="text-xs text-slate-500">Optimization for ATS and human readers.</p></div>
+                        </div>
+                        <div class="flex items-start gap-4">
+                            <div class="text-blue-600 mt-1"><i data-lucide="mic" class="w-5 h-5"></i></div>
+                            <div><h6 class="font-bold">Interview Prep</h6><p class="text-xs text-slate-500">Mock interviews and technical deep-dives.</p></div>
+                        </div>
+                        <div class="flex items-start gap-4">
+                            <div class="text-blue-600 mt-1"><i data-lucide="compass" class="w-5 h-5"></i></div>
+                            <div><h6 class="font-bold">Career Coaching</h6><p class="text-xs text-slate-500">Strategic pathing for long-term growth.</p></div>
+                        </div>
+                        <div class="flex items-start gap-4">
+                            <div class="text-blue-600 mt-1"><i data-lucide="monitor" class="w-5 h-5"></i></div>
+                            <div><h6 class="font-bold">Skill Training</h6><p class="text-xs text-slate-500">Access to certifications and workshops.</p></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="reveal bg-slate-900 p-12 rounded-[60px] relative overflow-hidden">
+                    <div class="absolute top-0 right-0 p-10 opacity-10"><i data-lucide="rocket" class="w-64 h-64 text-white"></i></div>
+                    <div class="relative z-10 text-white">
+                        <h4 class="text-3xl font-bold mb-6">Join Our Talent Community</h4>
+                        <p class="text-slate-400 mb-8">Stay updated with the latest remote and on-site opportunities tailored to your stack.</p>
+                        <a href="https://linkedin.com" target="_blank" class="inline-flex items-center gap-3 bg-blue-600 px-8 py-4 rounded-2xl font-bold hover:bg-white hover:text-blue-600 transition-all">
+                            Join on LinkedIn <i data-lucide="users"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- TECHNOLOGY EXPERTISE -->
+    <section id="tech" class="py-32 bg-slate-50">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="text-center mb-20 reveal">
+                <h3 class="text-5xl font-black text-slate-900 mb-6">Technologies We Command</h3>
+                <p class="text-slate-500 max-w-2xl mx-auto">We provide elite talent across the entire modern technology stack.</p>
+            </div>
+            
+            <!-- Original Tech Grid -->
+            <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-6 mb-12">
+                <div class="reveal group p-8 rounded-3xl border border-slate-100 bg-white hover:border-blue-500 transition-all text-center">
+                    <i data-lucide="cloud" class="w-10 h-10 mx-auto mb-4 text-blue-600 group-hover:scale-110 transition-transform"></i>
+                    <p class="font-bold text-sm">Cloud (AWS/Azure)</p>
+                </div>
+                <div class="reveal group p-8 rounded-3xl border border-slate-100 bg-white hover:border-blue-500 transition-all text-center">
+                    <i data-lucide="database" class="w-10 h-10 mx-auto mb-4 text-blue-600 group-hover:scale-110 transition-transform"></i>
+                    <p class="font-bold text-sm">Data Engineering</p>
+                </div>
+                <div class="reveal group p-8 rounded-3xl border border-slate-100 bg-white hover:border-blue-500 transition-all text-center">
+                    <i data-lucide="cpu" class="w-10 h-10 mx-auto mb-4 text-blue-600 group-hover:scale-110 transition-transform"></i>
+                    <p class="font-bold text-sm">AI & Machine Learning</p>
+                </div>
+                <div class="reveal group p-8 rounded-3xl border border-slate-100 bg-white hover:border-blue-500 transition-all text-center">
+                    <i data-lucide="shield-check" class="w-10 h-10 mx-auto mb-4 text-blue-600 group-hover:scale-110 transition-transform"></i>
+                    <p class="font-bold text-sm">Cybersecurity</p>
+                </div>
+                <div class="reveal group p-8 rounded-3xl border border-slate-100 bg-white hover:border-blue-500 transition-all text-center">
+                    <i data-lucide="layout" class="w-10 h-10 mx-auto mb-4 text-blue-600 group-hover:scale-110 transition-transform"></i>
+                    <p class="font-bold text-sm">Fullstack Dev</p>
+                </div>
+                <div class="reveal group p-8 rounded-3xl border border-slate-100 bg-white hover:border-blue-500 transition-all text-center">
+                    <i data-lucide="refresh-cw" class="w-10 h-10 mx-auto mb-4 text-blue-600 group-hover:scale-110 transition-transform"></i>
+                    <p class="font-bold text-sm">DevOps / SRE</p>
+                </div>
+            </div>
+
+            <!-- NEW: EXPANDED ENTERPRISE TECH ECOSYSTEM -->
+            <div class="reveal bg-white p-12 rounded-[50px] shadow-sm border border-slate-100">
+                <h4 class="text-2xl font-black mb-10 text-center">Deep Technical Proficiencies</h4>
+                <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-y-10 gap-x-6">
+                    <div class="space-y-3">
+                        <h6 class="text-blue-600 font-bold uppercase tracking-widest text-[10px]">Languages</h6>
+                        <div class="flex flex-wrap gap-2">
+                            <span class="tech-pill">Java</span> <span class="tech-pill">Python</span> <span class="tech-pill">Node.js</span> <span class="tech-pill">C# .NET</span> <span class="tech-pill">Go</span> <span class="tech-pill">React</span>
+                        </div>
+                    </div>
+                    <div class="space-y-3">
+                        <h6 class="text-blue-600 font-bold uppercase tracking-widest text-[10px]">Data & AI</h6>
+                        <div class="flex flex-wrap gap-2">
+                            <span class="tech-pill">Snowflake</span> <span class="tech-pill">Databricks</span> <span class="tech-pill">PyTorch</span> <span class="tech-pill">Tableau</span> <span class="tech-pill">Kafka</span>
+                        </div>
+                    </div>
+                    <div class="space-y-3">
+                        <h6 class="text-blue-600 font-bold uppercase tracking-widest text-[10px]">Cloud & Infra</h6>
+                        <div class="flex flex-wrap gap-2">
+                            <span class="tech-pill">AWS</span> <span class="tech-pill">Azure</span> <span class="tech-pill">Docker</span> <span class="tech-pill">Kubernetes</span> <span class="tech-pill">Terraform</span>
+                        </div>
+                    </div>
+                    <div class="space-y-3">
+                        <h6 class="text-blue-600 font-bold uppercase tracking-widest text-[10px]">ERP & CRM</h6>
+                        <div class="flex flex-wrap gap-2">
+                            <span class="tech-pill">Salesforce</span> <span class="tech-pill">SAP</span> <span class="tech-pill">ServiceNow</span> <span class="tech-pill">Workday</span> <span class="tech-pill">Oracle</span>
+                        </div>
+                    </div>
+                    <div class="space-y-3">
+                        <h6 class="text-blue-600 font-bold uppercase tracking-widest text-[10px]">Testing/QA</h6>
+                        <div class="flex flex-wrap gap-2">
+                            <span class="tech-pill">Selenium</span> <span class="tech-pill">Playwright</span> <span class="tech-pill">Appium</span> <span class="tech-pill">JMeter</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CLIENTS SECTION -->
+    <section id="clients" class="py-32 section-gradient-slate relative">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="text-center mb-24 reveal">
+                <h2 class="text-blue-600 font-black uppercase tracking-[0.3em] text-xs mb-4">For Clients</h2>
+                <h3 class="text-5xl font-black mb-8 leading-tight">Your Success is Our Priority</h3>
+            </div>
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="reveal bento-grid-item p-12 rounded-[50px] text-center">
+                    <i data-lucide="heart" class="w-12 h-12 text-blue-600 mx-auto mb-6"></i>
+                    <h5 class="text-2xl font-bold mb-4">Client-Centric</h5>
+                    <p class="text-slate-500 text-sm">Analyzing goals to align with business strategy.</p>
+                </div>
+                <div class="reveal bento-grid-item p-12 rounded-[50px] text-center">
+                    <i data-lucide="shield" class="w-12 h-12 text-blue-600 mx-auto mb-6"></i>
+                    <h5 class="text-2xl font-bold mb-4">Transparency</h5>
+                    <p class="text-slate-500 text-sm">Building trust through open communication processes.</p>
+                </div>
+                <div class="reveal bento-grid-item p-12 rounded-[50px] text-center">
+                    <i data-lucide="zap" class="w-12 h-12 text-blue-600 mx-auto mb-6"></i>
+                    <h5 class="text-2xl font-bold mb-4">Quality Talent</h5>
+                    <p class="text-slate-500 text-sm">Access top-tier talent through rigorous screening.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- NEW: PREMIUM LINKEDIN ENGAGEMENT 2 -->
+    <section class="py-12 bg-white">
+        <div class="max-w-5xl mx-auto px-6">
+            <div class="reveal p-10 rounded-[40px] border border-blue-100 bg-blue-50 flex flex-col md:flex-row items-center gap-10">
+                <div class="flex-shrink-0">
+                    <div class="flex -space-x-4">
+                        <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&q=80" class="w-16 h-16 rounded-full border-4 border-white object-cover">
+                        <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&q=80" class="w-16 h-16 rounded-full border-4 border-white object-cover">
+                        <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&q=80" class="w-16 h-16 rounded-full border-4 border-white object-cover">
+                    </div>
+                </div>
+                <div class="text-center md:text-left">
+                    <h5 class="text-xl font-bold text-slate-900 mb-2">Connect with Our Recruiters</h5>
+                    <p class="text-slate-500 text-sm mb-4">Our specialized recruiters are active daily on LinkedIn. Connect with them for direct project placements.</p>
+                    <a href="https://linkedin.com" target="_blank" class="text-blue-600 font-bold hover:underline flex items-center justify-center md:justify-start gap-2">View Team on LinkedIn <i data-lucide="chevron-right" class="w-4 h-4"></i></a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- INDUSTRIES WE SERVE -->
+    <section class="py-32 bg-slate-900 text-white overflow-hidden">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="grid lg:grid-cols-2 gap-20 items-center">
+                <div class="reveal">
+                    <h3 class="text-5xl font-black mb-8">Industry-Specific Solutions</h3>
+                    <p class="text-slate-400 text-lg mb-10">We don't just provide IT staffing; we provide domain experts who understand the nuances of your specific industry vertical.</p>
+                    <div class="grid grid-cols-2 gap-4 mb-10">
+                        <div class="flex items-center gap-3 p-4 bg-white/5 rounded-2xl border border-white/10 hover:bg-blue-600 transition-all cursor-default">
+                            <i data-lucide="landmark" class="w-5 h-5 text-blue-400"></i> <span>FinTech & Banking</span>
+                        </div>
+                        <div class="flex items-center gap-3 p-4 bg-white/5 rounded-2xl border border-white/10 hover:bg-blue-600 transition-all cursor-default">
+                            <i data-lucide="activity" class="w-5 h-5 text-blue-400"></i> <span>Healthcare & Life Sciences</span>
+                        </div>
+                        <div class="flex items-center gap-3 p-4 bg-white/5 rounded-2xl border border-white/10 hover:bg-blue-600 transition-all cursor-default">
+                            <i data-lucide="shopping-cart" class="w-5 h-5 text-blue-400"></i> <span>Retail & E-commerce</span>
+                        </div>
+                        <div class="flex items-center gap-3 p-4 bg-white/5 rounded-2xl border border-white/10 hover:bg-blue-600 transition-all cursor-default">
+                            <i data-lucide="truck" class="w-5 h-5 text-blue-400"></i> <span>Logistics & Supply Chain</span>
+                        </div>
+                    </div>
+                    
+                    <!-- NEW: ADDED INDUSTRIES -->
+                    <div class="grid grid-cols-2 gap-4">
+                        <div class="flex items-center gap-3 p-4 bg-white/5 rounded-2xl border border-white/10 hover:bg-blue-600 transition-all cursor-default">
+                            <i data-lucide="shield-check" class="w-5 h-5 text-blue-400"></i> <span>Insurance & Legal</span>
+                        </div>
+                        <div class="flex items-center gap-3 p-4 bg-white/5 rounded-2xl border border-white/10 hover:bg-blue-600 transition-all cursor-default">
+                            <i data-lucide="factory" class="w-5 h-5 text-blue-400"></i> <span>Manufacturing</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="reveal relative">
+                    <div class="img-reveal rounded-[50px] overflow-hidden grayscale hover:grayscale-0 transition-all duration-700">
+                        <img src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&q=80" alt="Industry">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CONSULTANTS SECTION -->
+    <section id="consultants" class="py-32 bg-slate-50 relative overflow-hidden">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="grid lg:grid-cols-2 gap-20 items-center">
+                <div class="reveal">
+                    <h2 class="text-blue-600 font-black uppercase tracking-[0.3em] text-xs mb-4">For Consultants</h2>
+                    <h3 class="text-5xl font-black text-slate-900 mb-8 leading-tight">Empowering Our Core Talent</h3>
+                    <div class="space-y-6">
+                        <div class="flex gap-6 p-6 bg-white rounded-3xl border border-slate-100 shadow-sm">
+                            <i data-lucide="globe" class="text-blue-600"></i>
+                            <div><h6 class="font-bold">Diverse Opportunities</h6><p class="text-slate-500 text-sm">Access wide job arrays across all industries.</p></div>
+                        </div>
+                        <div class="flex gap-6 p-6 bg-white rounded-3xl border border-slate-100 shadow-sm">
+                            <i data-lucide="user-check" class="text-blue-600"></i>
+                            <div><h6 class="font-bold">Personalized Support</h6><p class="text-slate-500 text-sm">Dedicated guidance from resume writing to career growth.</p></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="reveal relative">
+                    <div class="img-reveal rounded-[60px] shadow-2xl overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?auto=format&fit=crop&q=80" alt="Consultant Success">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- RECRUITMENT PROCESS -->
+    <section class="py-32 bg-white">
+        <div class="max-w-7xl mx-auto px-6">
+            <h3 class="reveal text-4xl font-black text-center mb-20">Our Precision Recruitment Process</h3>
+            <div class="grid md:grid-cols-5 gap-4 relative">
+                <div class="reveal text-center">
+                    <div class="w-16 h-16 bg-blue-600 text-white rounded-full flex items-center justify-center mx-auto mb-6 text-xl font-black shadow-lg">1</div>
+                    <h5 class="font-bold mb-2">Identify</h5>
+                    <p class="text-xs text-slate-500 uppercase tracking-widest font-bold">Requirement Analysis</p>
+                </div>
+                <div class="reveal text-center" style="transition-delay: 0.1s">
+                    <div class="w-16 h-16 bg-blue-600 text-white rounded-full flex items-center justify-center mx-auto mb-6 text-xl font-black shadow-lg">2</div>
+                    <h5 class="font-bold mb-2">Source</h5>
+                    <p class="text-xs text-slate-500 uppercase tracking-widest font-bold">Talent Sourcing</p>
+                </div>
+                <div class="reveal text-center" style="transition-delay: 0.2s">
+                    <div class="w-16 h-16 bg-blue-600 text-white rounded-full flex items-center justify-center mx-auto mb-6 text-xl font-black shadow-lg">3</div>
+                    <h5 class="font-bold mb-2">Vet</h5>
+                    <p class="text-xs text-slate-500 uppercase tracking-widest font-bold">Technical Screening</p>
+                </div>
+                <div class="reveal text-center" style="transition-delay: 0.3s">
+                    <div class="w-16 h-16 bg-blue-600 text-white rounded-full flex items-center justify-center mx-auto mb-6 text-xl font-black shadow-lg">4</div>
+                    <h5 class="font-bold mb-2">Present</h5>
+                    <p class="text-xs text-slate-500 uppercase tracking-widest font-bold">Interview & Review</p>
+                </div>
+                <div class="reveal text-center" style="transition-delay: 0.4s">
+                    <div class="w-16 h-16 bg-blue-600 text-white rounded-full flex items-center justify-center mx-auto mb-6 text-xl font-black shadow-lg">5</div>
+                    <h5 class="font-bold mb-2">Onboard</h5>
+                    <p class="text-xs text-slate-500 uppercase tracking-widest font-bold">Project Kick-off</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- TEAM SECTION -->
+    <section id="team" class="py-32 section-gradient-blue relative">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="text-center mb-24 reveal">
+                <h2 class="text-blue-600 font-black uppercase tracking-[0.3em] text-xs mb-4">Leadership</h2>
+                <h3 class="text-5xl font-black text-slate-900 mb-8">Meet Our Team</h3>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6">
+                <!-- Member 1 -->
+                <div class="reveal team-card bento-grid-item p-6 rounded-[32px]">
+                    <div class="team-image-wrapper mb-6 aspect-square">
+                        <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&q=80" alt="Adrian Sterling" class="w-full h-full object-cover">
+                    </div>
+                    <h5 class="text-xl font-bold text-slate-900 mb-1">Adrian Sterling</h5>
+                    <p class="text-blue-600 text-[10px] font-black uppercase tracking-[0.2em]">CEO & Founder</p>
+                </div>
+                <!-- Member 2 -->
+                <div class="reveal team-card bento-grid-item p-6 rounded-[32px]">
+                    <div class="team-image-wrapper mb-6 aspect-square">
+                        <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&q=80" alt="Elena Rodriguez" class="w-full h-full object-cover">
+                    </div>
+                    <h5 class="text-xl font-bold text-slate-900 mb-1">Elena Rodriguez</h5>
+                    <p class="text-blue-600 text-[10px] font-black uppercase tracking-[0.2em]">Talent Acquisition</p>
+                </div>
+                <!-- Member 3 -->
+                <div class="reveal team-card bento-grid-item p-6 rounded-[32px]">
+                    <div class="team-image-wrapper mb-6 aspect-square">
+                        <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&q=80" alt="Marcus Thorne" class="w-full h-full object-cover">
+                    </div>
+                    <h5 class="text-xl font-bold text-slate-900 mb-1">Marcus Thorne</h5>
+                    <p class="text-blue-600 text-[10px] font-black uppercase tracking-[0.2em]">Operations VP</p>
+                </div>
+                <!-- Member 4 -->
+                <div class="reveal team-card bento-grid-item p-6 rounded-[32px]">
+                    <div class="team-image-wrapper mb-6 aspect-square">
+                        <img src="https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&q=80" alt="Sarah Jenkins" class="w-full h-full object-cover">
+                    </div>
+                    <h5 class="text-xl font-bold text-slate-900 mb-1">Sarah Jenkins</h5>
+                    <p class="text-blue-600 text-[10px] font-black uppercase tracking-[0.2em]">Client Relations</p>
+                </div>
+                <!-- Member 5 -->
+                <div class="reveal team-card bento-grid-item p-6 rounded-[32px]">
+                    <div class="team-image-wrapper mb-6 aspect-square">
+                        <img src="https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&q=80" alt="David Zhang" class="w-full h-full object-cover">
+                    </div>
+                    <h5 class="text-xl font-bold text-slate-900 mb-1">David Zhang</h5>
+                    <p class="text-blue-600 text-[10px] font-black uppercase tracking-[0.2em]">Bench Sales Mgr</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- NEW: SUCCESS STORIES / CASE STUDIES -->
+    <section class="py-32 bg-slate-50">
+        <div class="max-w-7xl mx-auto px-6">
+            <h3 class="reveal text-4xl font-black text-center mb-20">Enterprise Placement Success Stories</h3>
+            <div class="grid lg:grid-cols-3 gap-8">
+                <div class="reveal bg-white p-10 rounded-[40px] shadow-sm border border-slate-100">
+                    <span class="text-blue-600 font-bold text-xs uppercase mb-4 block">FinTech Sector</span>
+                    <h5 class="text-xl font-bold mb-4">Core Banking Migration</h5>
+                    <p class="text-slate-500 text-sm mb-6">Successfully placed a team of 12 Java/AWS Architects for a Fortune 500 bank within 3 weeks.</p>
+                    <div class="pt-6 border-t border-slate-100 flex items-center justify-between">
+                        <span class="text-xs font-black uppercase">Project Impact: 100% On-time</span>
+                        <i data-lucide="trending-up" class="text-green-500"></i>
+                    </div>
+                </div>
+                <div class="reveal bg-white p-10 rounded-[40px] shadow-sm border border-slate-100">
+                    <span class="text-blue-600 font-bold text-xs uppercase mb-4 block">Healthcare IT</span>
+                    <h5 class="text-xl font-bold mb-4">Patient Data Security</h5>
+                    <p class="text-slate-500 text-sm mb-6">Staffed 8 Cybersecurity specialists for an EMR provider to implement HIPAA-compliant cloud storage.</p>
+                    <div class="pt-6 border-t border-slate-100 flex items-center justify-between">
+                        <span class="text-xs font-black uppercase">Placement: 8 Hires</span>
+                        <i data-lucide="shield-check" class="text-blue-500"></i>
+                    </div>
+                </div>
+                <div class="reveal bg-white p-10 rounded-[40px] shadow-sm border border-slate-100">
+                    <span class="text-blue-600 font-bold text-xs uppercase mb-4 block">E-Commerce</span>
+                    <h5 class="text-xl font-bold mb-4">Scalable Retail Platform</h5>
+                    <p class="text-slate-500 text-sm mb-6">Assisted a major retailer in building their entire DevOps pipeline with 5 lead Terraform/Kubernetes engineers.</p>
+                    <div class="pt-6 border-t border-slate-100 flex items-center justify-between">
+                        <span class="text-xs font-black uppercase">Speed: 48hr TAT</span>
+                        <i data-lucide="zap" class="text-yellow-500"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- GLOBAL DELIVERY MODEL -->
+    <section class="py-32 bg-slate-900 text-white relative overflow-hidden">
+        <div class="absolute inset-0 opacity-10 bg-[url('https://www.transparenttextures.com/patterns/world-map.png')] bg-center bg-no-repeat"></div>
+        <div class="max-w-7xl mx-auto px-6 relative z-10 text-center">
+            <h3 class="reveal text-5xl font-black mb-8">Global Reach. Local Support.</h3>
+            <p class="reveal text-xl text-slate-400 mb-16 max-w-2xl mx-auto">Operating across 40+ states and multiple international time zones to provide 24/7 delivery capabilities.</p>
+            <div class="reveal flex flex-wrap justify-center gap-8">
+                <div class="px-8 py-4 bg-white/5 border border-white/10 rounded-full font-bold">North America</div>
+                <div class="px-8 py-4 bg-white/5 border border-white/10 rounded-full font-bold">Europe</div>
+                <div class="px-8 py-4 bg-white/5 border border-white/10 rounded-full font-bold">Asia-Pacific</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- JOBS SECTION (EXPANDED TO 20+ LISTINGS) -->
+    <section id="jobs" class="py-32 bg-white relative">
+        <div class="max-w-7xl mx-auto px-6">
+            <div id="jobs-portal" class="text-center mb-24 reveal">
+                <h3 class="text-5xl font-black text-slate-900 mb-8">Current Opportunities</h3>
+                <p class="text-slate-500 max-w-2xl mx-auto">Click 'Apply Now' to be automatically directed to our recruitment center.</p>
+            </div>
+            
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Job 1 -->
+                <div class="reveal premium-job-card p-10 rounded-[40px] shadow-sm border border-slate-100">
+                    <div class="flex justify-between items-start mb-6">
+                        <div class="w-12 h-12 bg-blue-50 text-blue-600 rounded-xl flex items-center justify-center"><i data-lucide="code-2"></i></div>
+                        <span class="text-[10px] font-black uppercase text-blue-600 px-3 py-1 bg-blue-50 rounded-full">Remote</span>
+                    </div>
+                    <h5 class="text-xl font-bold mb-2">Sr. Java Developer</h5>
+                    <p class="text-xs text-slate-400 mb-4">Tech: Spring Boot, Microservices, AWS</p>
+                    <p class="text-slate-500 text-sm mb-6">Building scalable backend systems for high-frequency trading platforms.</p>
+                    <button onclick="applyForJob('Sr. Java Developer')" class="w-full py-4 bg-slate-900 text-white rounded-2xl font-bold hover:bg-blue-600 transition-all flex items-center justify-center gap-2">Apply Now <i data-lucide="arrow-right-circle" class="w-4 h-4"></i></button>
+                </div>
+
+                <!-- Job 2 -->
+                <div class="reveal premium-job-card p-10 rounded-[40px] shadow-sm border border-slate-100">
+                    <div class="flex justify-between items-start mb-6">
+                        <div class="w-12 h-12 bg-blue-50 text-blue-600 rounded-xl flex items-center justify-center"><i data-lucide="cloud"></i></div>
+                        <span class="text-[10px] font-black uppercase text-blue-600 px-3 py-1 bg-blue-50 rounded-full">On-Site</span>
+                    </div>
+                    <h5 class="text-xl font-bold mb-2">Cloud Infrastructure Architect</h5>
+                    <p class="text-xs text-slate-400 mb-4">Tech: Azure, Terraform, Ansible</p>
+                    <p class="text-slate-500 text-sm mb-6">Designing hybrid cloud environments for national healthcare systems.</p>
+                    <button onclick="applyForJob('Cloud Infrastructure Architect')" class="w-full py-4 bg-slate-900 text-white rounded-2xl font-bold hover:bg-blue-600 transition-all flex items-center justify-center gap-2">Apply Now <i data-lucide="arrow-right-circle" class="w-4 h-4"></i></button>
+                </div>
+
+                <!-- Job 3 -->
+                <div class="reveal premium-job-card p-10 rounded-[40px] shadow-sm border border-slate-100">
+                    <div class="flex justify-between items-start mb-6">
+                        <div class="w-12 h-12 bg-blue-50 text-blue-600 rounded-xl flex items-center justify-center"><i data-lucide="shield"></i></div>
+                        <span class="text-[10px] font-black uppercase text-blue-600 px-3 py-1 bg-blue-50 rounded-full">Hybrid</span>
+                    </div>
+                    <h5 class="text-xl font-bold mb-2">Cybersecurity Engineer</h5>
+                    <p class="text-xs text-slate-400 mb-4">Tech: SIEM, SOC, Penetration Testing</p>
+                    <p class="text-slate-500 text-sm mb-6">Securing enterprise assets against advanced persistent threats.</p>
+                    <button onclick="applyForJob('Cybersecurity Engineer')" class="w-full py-4 bg-slate-900 text-white rounded-2xl font-bold hover:bg-blue-600 transition-all flex items-center justify-center gap-2">Apply Now <i data-lucide="arrow-right-circle" class="w-4 h-4"></i></button>
+                </div>
+
+                <!-- Job 4 -->
+                <div class="reveal premium-job-card p-10 rounded-[40px] shadow-sm border border-slate-100">
+                    <div class="flex justify-between items-start mb-6">
+                        <div class="w-12 h-12 bg-blue-50 text-blue-600 rounded-xl flex items-center justify-center"><i data-lucide="database"></i></div>
+                        <span class="text-[10px] font-black uppercase text-blue-600 px-3 py-1 bg-blue-50 rounded-full">Remote</span>
+                    </div>
+                    <h5 class="text-xl font-bold mb-2">Data Engineer (Snowflake)</h5>
+                    <p class="text-xs text-slate-400 mb-4">Tech: Python, Snowflake, dbt, SQL</p>
+                    <p class="text-slate-500 text-sm mb-6">Building modern data warehouses for retail analytics.</p>
+                    <button onclick="applyForJob('Data Engineer')" class="w-full py-4 bg-slate-900 text-white rounded-2xl font-bold hover:bg-blue-600 transition-all flex items-center justify-center gap-2">Apply Now <i data-lucide="arrow-right-circle" class="w-4 h-4"></i></button>
+                </div>
+
+                <!-- Job 5 -->
+                <div class="reveal premium-job-card p-10 rounded-[40px] shadow-sm border border-slate-100">
+                    <div class="flex justify-between items-start mb-6">
+                        <div class="w-12 h-12 bg-blue-50 text-blue-600 rounded-xl flex items-center justify-center"><i data-lucide="terminal"></i></div>
+                        <span class="text-[10px] font-black uppercase text-blue-600 px-3 py-1 bg-blue-50 rounded-full">Remote</span>
+                    </div>
+                    <h5 class="text-xl font-bold mb-2">DevOps/SRE Lead</h5>
+                    <p class="text-xs text-slate-400 mb-4">Tech: Kubernetes, CI/CD, Go</p>
+                    <p class="text-slate-500 text-sm mb-6">Ensuring 99.9% availability for critical fintech applications.</p>
+                    <button onclick="applyForJob('DevOps Lead')" class="w-full py-4 bg-slate-900 text-white rounded-2xl font-bold hover:bg-blue-600 transition-all flex items-center justify-center gap-2">Apply Now <i data-lucide="arrow-right-circle" class="w-4 h-4"></i></button>
+                </div>
+
+                <!-- Job 6 -->
+                <div class="reveal premium-job-card p-10 rounded-[40px] shadow-sm border border-slate-100">
+                    <div class="flex justify-between items-start mb-6">
+                        <div class="w-12 h-12 bg-blue-50 text-blue-600 rounded-xl flex items-center justify-center"><i data-lucide="layers"></i></div>
+                        <span class="text-[10px] font-black uppercase text-blue-600 px-3 py-1 bg-blue-50 rounded-full">Hybrid</span>
+                    </div>
+                    <h5 class="text-xl font-bold mb-2">Salesforce Developer</h5>
+                    <p class="text-xs text-slate-400 mb-4">Tech: Apex, LWC, Sales Cloud</p>
+                    <p class="text-slate-500 text-sm mb-6">Customizing CRM workflows for global logistics companies.</p>
+                    <button onclick="applyForJob('Salesforce Developer')" class="w-full py-4 bg-slate-900 text-white rounded-2xl font-bold hover:bg-blue-600 transition-all flex items-center justify-center gap-2">Apply Now <i data-lucide="arrow-right-circle" class="w-4 h-4"></i></button>
+                </div>
+
+                <!-- Job 7 -->
+                <div class="reveal premium-job-card p-10 rounded-[40px] shadow-sm border border-slate-100">
+                    <div class="flex justify-between items-start mb-6">
+                        <div class="w-12 h-12 bg-blue-50 text-blue-600 rounded-xl flex items-center justify-center"><i data-lucide="activity"></i></div>
+                        <span class="text-[10px] font-black uppercase text-blue-600 px-3 py-1 bg-blue-50 rounded-full">Remote</span>
+                    </div>
+                    <h5 class="text-xl font-bold mb-2">ServiceNow Architect</h5>
+                    <p class="text-xs text-slate-400 mb-4">Tech: ITSM, ITOM, JavaScript</p>
+                    <p class="text-slate-500 text-sm mb-6">Leading digital transformation through platform automation.</p>
+                    <button onclick="applyForJob('ServiceNow Architect')" class="w-full py-4 bg-slate-900 text-white rounded-2xl font-bold hover:bg-blue-600 transition-all flex items-center justify-center gap-2">Apply Now <i data-lucide="arrow-right-circle" class="w-4 h-4"></i></button>
+                </div>
+
+                <!-- Job 8 -->
+                <div class="reveal premium-job-card p-10 rounded-[40px] shadow-sm border border-slate-100">
+                    <div class="flex justify-between items-start mb-6">
+                        <div class="w-12 h-12 bg-blue-50 text-blue-600 rounded-xl flex items-center justify-center"><i data-lucide="cpu"></i></div>
+                        <span class="text-[10px] font-black uppercase text-blue-600 px-3 py-1 bg-blue-50 rounded-full">On-Site</span>
+                    </div>
+                    <h5 class="text-xl font-bold mb-2">SAP ABAP Consultant</h5>
+                    <p class="text-xs text-slate-400 mb-4">Tech: SAP S/4HANA, Fiori</p>
+                    <p class="text-slate-500 text-sm mb-6">Optimizing supply chain modules for manufacturing clients.</p>
+                    <button onclick="applyForJob('SAP Consultant')" class="w-full py-4 bg-slate-900 text-white rounded-2xl font-bold hover:bg-blue-600 transition-all flex items-center justify-center gap-2">Apply Now <i data-lucide="arrow-right-circle" class="w-4 h-4"></i></button>
+                </div>
+
+                <!-- Job 9 -->
+                <div class="reveal premium-job-card p-10 rounded-[40px] shadow-sm border border-slate-100">
+                    <div class="flex justify-between items-start mb-6">
+                        <div class="w-12 h-12 bg-blue-50 text-blue-600 rounded-xl flex items-center justify-center"><i data-lucide="file-check-2"></i></div>
+                        <span class="text-[10px] font-black uppercase text-blue-600 px-3 py-1 bg-blue-50 rounded-full">Remote</span>
+                    </div>
+                    <h5 class="text-xl font-bold mb-2">QA Automation Engineer</h5>
+                    <p class="text-xs text-slate-400 mb-4">Tech: Selenium, Playwright, Cypress</p>
+                    <p class="text-slate-500 text-sm mb-6">Ensuring bug-free deployments for mobile banking apps.</p>
+                    <button onclick="applyForJob('QA Engineer')" class="w-full py-4 bg-slate-900 text-white rounded-2xl font-bold hover:bg-blue-600 transition-all flex items-center justify-center gap-2">Apply Now <i data-lucide="arrow-right-circle" class="w-4 h-4"></i></button>
+                </div>
+
+                <!-- Additional Jobs Placeholder (Iterate through 20+) -->
+                <!-- Job 10: Fullstack React/Node -->
+                <div class="reveal premium-job-card p-10 rounded-[40px] shadow-sm border border-slate-100">
+                    <div class="flex justify-between items-start mb-6">
+                        <div class="w-12 h-12 bg-blue-50 text-blue-600 rounded-xl flex items-center justify-center"><i data-lucide="monitor"></i></div>
+                        <span class="text-[10px] font-black uppercase text-blue-600 px-3 py-1 bg-blue-50 rounded-full">Remote</span>
+                    </div>
+                    <h5 class="text-xl font-bold mb-2">Fullstack Engineer (React)</h5>
+                    <p class="text-xs text-slate-400 mb-4">Tech: React, Node, PostgreSQL</p>
+                    <p class="text-slate-500 text-sm mb-6">Building customer-facing dashboards for analytics firms.</p>
+                    <button onclick="applyForJob('Fullstack React Developer')" class="w-full py-4 bg-slate-900 text-white rounded-2xl font-bold hover:bg-blue-600 transition-all flex items-center justify-center gap-2">Apply Now <i data-lucide="arrow-right-circle" class="w-4 h-4"></i></button>
+                </div>
+
+                <!-- Job 11: AI/ML Engineer -->
+                <div class="reveal premium-job-card p-10 rounded-[40px] shadow-sm border border-slate-100">
+                    <div class="flex justify-between items-start mb-6">
+                        <div class="w-12 h-12 bg-blue-50 text-blue-600 rounded-xl flex items-center justify-center"><i data-lucide="brain-circuit"></i></div>
+                        <span class="text-[10px] font-black uppercase text-blue-600 px-3 py-1 bg-blue-50 rounded-full">Remote</span>
+                    </div>
+                    <h5 class="text-xl font-bold mb-2">ML Engineer (Python)</h5>
+                    <p class="text-xs text-slate-400 mb-4">Tech: PyTorch, Scikit-learn, LLMs</p>
+                    <p class="text-slate-500 text-sm mb-6">Implementing generative AI solutions for automated support.</p>
+                    <button onclick="applyForJob('ML Engineer')" class="w-full py-4 bg-slate-900 text-white rounded-2xl font-bold hover:bg-blue-600 transition-all flex items-center justify-center gap-2">Apply Now <i data-lucide="arrow-right-circle" class="w-4 h-4"></i></button>
+                </div>
+
+                <!-- Job 12: Project Manager -->
+                <div class="reveal premium-job-card p-10 rounded-[40px] shadow-sm border border-slate-100">
+                    <div class="flex justify-between items-start mb-6">
+                        <div class="w-12 h-12 bg-blue-50 text-blue-600 rounded-xl flex items-center justify-center"><i data-lucide="briefcase"></i></div>
+                        <span class="text-[10px] font-black uppercase text-blue-600 px-3 py-1 bg-blue-50 rounded-full">Hybrid</span>
+                    </div>
+                    <h5 class="text-xl font-bold mb-2">Technical Project Manager</h5>
+                    <p class="text-xs text-slate-400 mb-4">Agile, Jira, Stakeholder Management</p>
+                    <p class="text-slate-500 text-sm mb-6">Orchestrating multi-team delivery for government contracts.</p>
+                    <button onclick="applyForJob('Technical Project Manager')" class="w-full py-4 bg-slate-900 text-white rounded-2xl font-bold hover:bg-blue-600 transition-all flex items-center justify-center gap-2">Apply Now <i data-lucide="arrow-right-circle" class="w-4 h-4"></i></button>
+                </div>
+
+                <!-- Job 13: Scrum Master -->
+                <div class="reveal premium-job-card p-10 rounded-[40px] shadow-sm border border-slate-100">
+                    <div class="flex justify-between items-start mb-6">
+                        <div class="w-12 h-12 bg-blue-50 text-blue-600 rounded-xl flex items-center justify-center"><i data-lucide="repeat"></i></div>
+                        <span class="text-[10px] font-black uppercase text-blue-600 px-3 py-1 bg-blue-50 rounded-full">Remote</span>
+                    </div>
+                    <h5 class="text-xl font-bold mb-2">Certified Scrum Master</h5>
+                    <p class="text-xs text-slate-400 mb-4">CSM, SAFe, Kanban Expert</p>
+                    <p class="text-slate-500 text-sm mb-6">Facilitating agile rituals for cross-functional dev teams.</p>
+                    <button onclick="applyForJob('Scrum Master')" class="w-full py-4 bg-slate-900 text-white rounded-2xl font-bold hover:bg-blue-600 transition-all flex items-center justify-center gap-2">Apply Now <i data-lucide="arrow-right-circle" class="w-4 h-4"></i></button>
+                </div>
+
+                <!-- Job 14: Business Analyst -->
+                <div class="reveal premium-job-card p-10 rounded-[40px] shadow-sm border border-slate-100">
+                    <div class="flex justify-between items-start mb-6">
+                        <div class="w-12 h-12 bg-blue-50 text-blue-600 rounded-xl flex items-center justify-center"><i data-lucide="pie-chart"></i></div>
+                        <span class="text-[10px] font-black uppercase text-blue-600 px-3 py-1 bg-blue-50 rounded-full">On-Site</span>
+                    </div>
+                    <h5 class="text-xl font-bold mb-2">Senior Business Analyst</h5>
+                    <p class="text-xs text-slate-400 mb-4">BRDs, User Stories, Visio</p>
+                    <p class="text-slate-500 text-sm mb-6">Translating complex business needs into technical specs.</p>
+                    <button onclick="applyForJob('Business Analyst')" class="w-full py-4 bg-slate-900 text-white rounded-2xl font-bold hover:bg-blue-600 transition-all flex items-center justify-center gap-2">Apply Now <i data-lucide="arrow-right-circle" class="w-4 h-4"></i></button>
+                </div>
+
+                <!-- Job 15: Product Owner -->
+                <div class="reveal premium-job-card p-10 rounded-[40px] shadow-sm border border-slate-100">
+                    <div class="flex justify-between items-start mb-6">
+                        <div class="w-12 h-12 bg-blue-50 text-blue-600 rounded-xl flex items-center justify-center"><i data-lucide="clipboard-list"></i></div>
+                        <span class="text-[10px] font-black uppercase text-blue-600 px-3 py-1 bg-blue-50 rounded-full">Remote</span>
+                    </div>
+                    <h5 class="text-xl font-bold mb-2">Technical Product Owner</h5>
+                    <p class="text-xs text-slate-400 mb-4">Backlog Mgmt, Roadmap Design</p>
+                    <p class="text-slate-500 text-sm mb-6">Driving the vision for enterprise mobile solutions.</p>
+                    <button onclick="applyForJob('Product Owner')" class="w-full py-4 bg-slate-900 text-white rounded-2xl font-bold hover:bg-blue-600 transition-all flex items-center justify-center gap-2">Apply Now <i data-lucide="arrow-right-circle" class="w-4 h-4"></i></button>
+                </div>
+
+                <!-- Job 16: Golang Dev -->
+                <div class="reveal premium-job-card p-10 rounded-[40px] shadow-sm border border-slate-100">
+                    <div class="flex justify-between items-start mb-6">
+                        <div class="w-12 h-12 bg-blue-50 text-blue-600 rounded-xl flex items-center justify-center"><i data-lucide="binary"></i></div>
+                        <span class="text-[10px] font-black uppercase text-blue-600 px-3 py-1 bg-blue-50 rounded-full">Remote</span>
+                    </div>
+                    <h5 class="text-xl font-bold mb-2">Backend Engineer (Golang)</h5>
+                    <p class="text-xs text-slate-400 mb-4">Tech: Go, gRPC, Protobuf</p>
+                    <p class="text-slate-500 text-sm mb-6">Building high-performance microservices for streaming.</p>
+                    <button onclick="applyForJob('Golang Developer')" class="w-full py-4 bg-slate-900 text-white rounded-2xl font-bold hover:bg-blue-600 transition-all flex items-center justify-center gap-2">Apply Now <i data-lucide="arrow-right-circle" class="w-4 h-4"></i></button>
+                </div>
+
+                <!-- Job 17: Snowflake Admin -->
+                <div class="reveal premium-job-card p-10 rounded-[40px] shadow-sm border border-slate-100">
+                    <div class="flex justify-between items-start mb-6">
+                        <div class="w-12 h-12 bg-blue-50 text-blue-600 rounded-xl flex items-center justify-center"><i data-lucide="database-zap"></i></div>
+                        <span class="text-[10px] font-black uppercase text-blue-600 px-3 py-1 bg-blue-50 rounded-full">Remote</span>
+                    </div>
+                    <h5 class="text-xl font-bold mb-2">Snowflake Administrator</h5>
+                    <p class="text-xs text-slate-400 mb-4">Tech: Snowflake, RBAC, Performance Tuning</p>
+                    <p class="text-slate-500 text-sm mb-6">Managing multi-tenant data platforms for insurance giants.</p>
+                    <button onclick="applyForJob('Snowflake Administrator')" class="w-full py-4 bg-slate-900 text-white rounded-2xl font-bold hover:bg-blue-600 transition-all flex items-center justify-center gap-2">Apply Now <i data-lucide="arrow-right-circle" class="w-4 h-4"></i></button>
+                </div>
+
+                <!-- Job 18: Mobile Dev -->
+                <div class="reveal premium-job-card p-10 rounded-[40px] shadow-sm border border-slate-100">
+                    <div class="flex justify-between items-start mb-6">
+                        <div class="w-12 h-12 bg-blue-50 text-blue-600 rounded-xl flex items-center justify-center"><i data-lucide="smartphone"></i></div>
+                        <span class="text-[10px] font-black uppercase text-blue-600 px-3 py-1 bg-blue-50 rounded-full">Remote</span>
+                    </div>
+                    <h5 class="text-xl font-bold mb-2">Flutter Developer</h5>
+                    <p class="text-xs text-slate-400 mb-4">Tech: Dart, Flutter, Firebase</p>
+                    <p class="text-slate-500 text-sm mb-6">Creating cross-platform experiences for global retailers.</p>
+                    <button onclick="applyForJob('Flutter Developer')" class="w-full py-4 bg-slate-900 text-white rounded-2xl font-bold hover:bg-blue-600 transition-all flex items-center justify-center gap-2">Apply Now <i data-lucide="arrow-right-circle" class="w-4 h-4"></i></button>
+                </div>
+
+                <!-- Job 19: Workday Consultant -->
+                <div class="reveal premium-job-card p-10 rounded-[40px] shadow-sm border border-slate-100">
+                    <div class="flex justify-between items-start mb-6">
+                        <div class="w-12 h-12 bg-blue-50 text-blue-600 rounded-xl flex items-center justify-center"><i data-lucide="users"></i></div>
+                        <span class="text-[10px] font-black uppercase text-blue-600 px-3 py-1 bg-blue-50 rounded-full">Hybrid</span>
+                    </div>
+                    <h5 class="text-xl font-bold mb-2">Workday HCM Consultant</h5>
+                    <p class="text-xs text-slate-400 mb-4">Integrations, Reporting, Studio</p>
+                    <p class="text-slate-500 text-sm mb-6">Leading HR tech transformations for legal enterprises.</p>
+                    <button onclick="applyForJob('Workday Consultant')" class="w-full py-4 bg-slate-900 text-white rounded-2xl font-bold hover:bg-blue-600 transition-all flex items-center justify-center gap-2">Apply Now <i data-lucide="arrow-right-circle" class="w-4 h-4"></i></button>
+                </div>
+
+                <!-- Job 20: UI/UX Designer -->
+                <div class="reveal premium-job-card p-10 rounded-[40px] shadow-sm border border-slate-100">
+                    <div class="flex justify-between items-start mb-6">
+                        <div class="w-12 h-12 bg-blue-50 text-blue-600 rounded-xl flex items-center justify-center"><i data-lucide="palette"></i></div>
+                        <span class="text-[10px] font-black uppercase text-blue-600 px-3 py-1 bg-blue-50 rounded-full">Remote</span>
+                    </div>
+                    <h5 class="text-xl font-bold mb-2">Product Designer (UI/UX)</h5>
+                    <p class="text-xs text-slate-400 mb-4">Figma, Design Systems, UX Research</p>
+                    <p class="text-slate-500 text-sm mb-6">Defining the visual language for next-gen SaaS products.</p>
+                    <button onclick="applyForJob('Product Designer')" class="w-full py-4 bg-slate-900 text-white rounded-2xl font-bold hover:bg-blue-600 transition-all flex items-center justify-center gap-2">Apply Now <i data-lucide="arrow-right-circle" class="w-4 h-4"></i></button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ SECTION (EXPANDED TO 20 ITEMS) -->
+    <section class="py-32 bg-slate-50">
+        <div class="max-w-4xl mx-auto px-6">
+            <h3 class="reveal text-4xl font-black text-center mb-16">Frequently Asked Questions</h3>
+            <div class="space-y-4">
+                <!-- Original FAQs -->
+                <div class="reveal faq-item bg-white p-6 rounded-3xl border border-slate-200 cursor-pointer transition-all">
+                    <div class="flex justify-between items-center">
+                        <h6 class="font-bold">How quickly can you provide talent?</h6>
+                        <i data-lucide="chevron-down" class="text-blue-600 transition-transform"></i>
+                    </div>
+                    <div class="faq-content text-slate-500 text-sm mt-4">We typically present shortlisted candidates within 48-72 hours of requirement intake.</div>
+                </div>
+                <div class="reveal faq-item bg-white p-6 rounded-3xl border border-slate-200 cursor-pointer transition-all">
+                    <div class="flex justify-between items-center">
+                        <h6 class="font-bold">Do you provide contract-to-hire options?</h6>
+                        <i data-lucide="chevron-down" class="text-blue-600 transition-transform"></i>
+                    </div>
+                    <div class="faq-content text-slate-500 text-sm mt-4">Yes, we offer flexible contract-to-hire models to ensure cultural and technical fit before permanent hiring.</div>
+                </div>
+                <div class="reveal faq-item bg-white p-6 rounded-3xl border border-slate-200 cursor-pointer transition-all">
+                    <div class="flex justify-between items-center">
+                        <h6 class="font-bold">What industries do you specialize in?</h6>
+                        <i data-lucide="chevron-down" class="text-blue-600 transition-transform"></i>
+                    </div>
+                    <div class="faq-content text-slate-500 text-sm mt-4">We serve FinTech, Healthcare, E-commerce, Logistics, and High-Tech Enterprise sectors.</div>
+                </div>
+
+                <!-- NEW FAQs -->
+                <div class="reveal faq-item bg-white p-6 rounded-3xl border border-slate-200 cursor-pointer transition-all">
+                    <div class="flex justify-between items-center">
+                        <h6 class="font-bold">What is the bench sales process at Deel?</h6>
+                        <i data-lucide="chevron-down" class="text-blue-600 transition-transform"></i>
+                    </div>
+                    <div class="faq-content text-slate-500 text-sm mt-4">Our dedicated bench sales team markets your consultants to a vast network of tier-1 vendors and direct clients, ensuring high utilization and billable rates.</div>
+                </div>
+                <div class="reveal faq-item bg-white p-6 rounded-3xl border border-slate-200 cursor-pointer transition-all">
+                    <div class="flex justify-between items-center">
+                        <h6 class="font-bold">Do you handle international placements?</h6>
+                        <i data-lucide="chevron-down" class="text-blue-600 transition-transform"></i>
+                    </div>
+                    <div class="faq-content text-slate-500 text-sm mt-4">Yes, we have a global delivery model that supports clients in the US, Canada, UK, and India.</div>
+                </div>
+                <div class="reveal faq-item bg-white p-6 rounded-3xl border border-slate-200 cursor-pointer transition-all">
+                    <div class="flex justify-between items-center">
+                        <h6 class="font-bold">How do you verify technical skills?</h6>
+                        <i data-lucide="chevron-down" class="text-blue-600 transition-transform"></i>
+                    </div>
+                    <div class="faq-content text-slate-500 text-sm mt-4">Every candidate undergoes a multi-stage vetting process including live coding assessments, system design interviews, and behavioral screenings conducted by subject matter experts.</div>
+                </div>
+                <div class="reveal faq-item bg-white p-6 rounded-3xl border border-slate-200 cursor-pointer transition-all">
+                    <div class="flex justify-between items-center">
+                        <h6 class="font-bold">What work authorizations do you support?</h6>
+                        <i data-lucide="chevron-down" class="text-blue-600 transition-transform"></i>
+                    </div>
+                    <div class="faq-content text-slate-500 text-sm mt-4">We work with US Citizens, Green Card holders, H1B, OPT/EAD, and other valid work authorizations.</div>
+                </div>
+                <div class="reveal faq-item bg-white p-6 rounded-3xl border border-slate-200 cursor-pointer transition-all">
+                    <div class="flex justify-between items-center">
+                        <h6 class="font-bold">Can you scale a team of 10+ people?</h6>
+                        <i data-lucide="chevron-down" class="text-blue-600 transition-transform"></i>
+                    </div>
+                    <div class="faq-content text-slate-500 text-sm mt-4">Absolutely. We specialize in workforce scalability and can assemble dedicated project teams within weeks for large-scale enterprise initiatives.</div>
+                </div>
+                <div class="reveal faq-item bg-white p-6 rounded-3xl border border-slate-200 cursor-pointer transition-all">
+                    <div class="flex justify-between items-center">
+                        <h6 class="font-bold">What is your screening success rate?</h6>
+                        <i data-lucide="chevron-down" class="text-blue-600 transition-transform"></i>
+                    </div>
+                    <div class="faq-content text-slate-500 text-sm mt-4">Our client-interview-to-hire ratio is 3:1, significantly higher than the industry average of 8:1, thanks to our rigorous internal vetting.</div>
+                </div>
+                <div class="reveal faq-item bg-white p-6 rounded-3xl border border-slate-200 cursor-pointer transition-all">
+                    <div class="flex justify-between items-center">
+                        <h6 class="font-bold">Do you offer 24/7 support?</h6>
+                        <i data-lucide="chevron-down" class="text-blue-600 transition-transform"></i>
+                    </div>
+                    <div class="faq-content text-slate-500 text-sm mt-4">Yes, our global operations in multiple time zones ensure that someone is always available to support our clients and consultants.</div>
+                </div>
+                <div class="reveal faq-item bg-white p-6 rounded-3xl border border-slate-200 cursor-pointer transition-all">
+                    <div class="flex justify-between items-center">
+                        <h6 class="font-bold">How do you handle payroll and compliance?</h6>
+                        <i data-lucide="chevron-down" class="text-blue-600 transition-transform"></i>
+                    </div>
+                    <div class="faq-content text-slate-500 text-sm mt-4">Deel Technologies manages all aspects of payroll, tax compliance, and background checks, removing the administrative burden from our clients.</div>
+                </div>
+                <div class="reveal faq-item bg-white p-6 rounded-3xl border border-slate-200 cursor-pointer transition-all">
+                    <div class="flex justify-between items-center">
+                        <h6 class="font-bold">Can I submit my resume without a specific job?</h6>
+                        <i data-lucide="chevron-down" class="text-blue-600 transition-transform"></i>
+                    </div>
+                    <div class="faq-content text-slate-500 text-sm mt-4">Yes, we encourage talented IT professionals to submit their resumes to our general database for future high-priority roles.</div>
+                </div>
+                <div class="reveal faq-item bg-white p-6 rounded-3xl border border-slate-200 cursor-pointer transition-all">
+                    <div class="flex justify-between items-center">
+                        <h6 class="font-bold">What are your typical project durations?</h6>
+                        <i data-lucide="chevron-down" class="text-blue-600 transition-transform"></i>
+                    </div>
+                    <div class="faq-content text-slate-500 text-sm mt-4">Contract roles usually range from 6 to 18 months, with many projects being extended based on performance and budget.</div>
+                </div>
+                <div class="reveal faq-item bg-white p-6 rounded-3xl border border-slate-200 cursor-pointer transition-all">
+                    <div class="flex justify-between items-center">
+                        <h6 class="font-bold">Do you support remote-first companies?</h6>
+                        <i data-lucide="chevron-down" class="text-blue-600 transition-transform"></i>
+                    </div>
+                    <div class="faq-content text-slate-500 text-sm mt-4">Yes, we have a massive pool of remote-ready talent and provide guidance on remote onboarding and management.</div>
+                </div>
+                <div class="reveal faq-item bg-white p-6 rounded-3xl border border-slate-200 cursor-pointer transition-all">
+                    <div class="flex justify-between items-center">
+                        <h6 class="font-bold">What is the cost for hiring through Deel?</h6>
+                        <i data-lucide="chevron-down" class="text-blue-600 transition-transform"></i>
+                    </div>
+                    <div class="faq-content text-slate-500 text-sm mt-4">Our pricing models vary by engagement type (Contract, Direct Hire, Project-based). Please contact our sales team for a custom quote.</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- NEW: ENTERPRISE RECRUITMENT & INQUIRY CENTER (ADVANCED FORM) -->
+    <section id="contact-center" class="py-32 bg-white relative overflow-hidden">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="text-center mb-20 reveal">
+                <h3 class="text-5xl font-black text-slate-900 mb-8">Enterprise Recruitment & Inquiry Center</h3>
+                <p class="text-slate-500 max-w-2xl mx-auto">Please select your inquiry type below to access specialized fields tailored to your needs.</p>
+            </div>
+
+            <div class="bg-slate-50 rounded-[60px] p-8 md:p-20 shadow-2xl border border-slate-100 reveal">
+                <form id="enterpriseForm" class="space-y-10" action="https://formspree.io/f/mqakppov" method="POST" enctype="multipart/form-data">
+                    <div class="grid md:grid-cols-2 gap-8">
+                        <!-- Inquiry Type Selection -->
+                        <div class="space-y-3">
+                            <label class="text-xs font-black uppercase text-blue-600 tracking-widest">Inquiry Type</label>
+                            <select name="inquiry_type" id="inquiryType" required class="form-input bg-white appearance-none cursor-pointer">
+                                <option value="" disabled selected>Select Your Path</option>
+                                <option value="job_application">I am a Candidate Applying for a Job</option>
+                                <option value="staffing_request">I am a Client Requesting Staffing</option>
+                                <option value="bench_sales">I am a Vendor / Bench Marketing Request</option>
+                                <option value="general_inquiry">General Business Inquiry</option>
+                            </select>
+                        </div>
+                        <!-- Conditional: Position Selection (For Candidates) -->
+                        <div class="space-y-3" id="positionWrapper">
+                            <label class="text-xs font-black uppercase text-blue-600 tracking-widest">Position Applying For</label>
+                            <select name="job_title" id="jobTitleSelect" class="form-input bg-white appearance-none cursor-pointer">
+                                <option value="general_submission">General Resume Submission</option>
+                                <option value="Sr. Java Developer">Sr. Java Developer</option>
+                                <option value="Cloud Infrastructure Architect">Cloud Infrastructure Architect</option>
+                                <option value="Cybersecurity Engineer">Cybersecurity Engineer</option>
+                                <option value="Data Engineer">Data Engineer</option>
+                                <option value="DevOps Lead">DevOps Lead</option>
+                                <option value="Salesforce Developer">Salesforce Developer</option>
+                                <option value="ServiceNow Architect">ServiceNow Architect</option>
+                                <option value="SAP Consultant">SAP Consultant</option>
+                                <option value="QA Engineer">QA Engineer</option>
+                                <option value="Fullstack React Developer">Fullstack React Developer</option>
+                                <option value="ML Engineer">ML Engineer</option>
+                                <option value="Technical Project Manager">Technical Project Manager</option>
+                                <option value="Scrum Master">Scrum Master</option>
+                                <option value="Business Analyst">Business Analyst</option>
+                                <option value="Product Owner">Product Owner</option>
+                                <option value="Golang Developer">Golang Developer</option>
+                                <option value="Snowflake Administrator">Snowflake Administrator</option>
+                                <option value="Flutter Developer">Flutter Developer</option>
+                                <option value="Workday Consultant">Workday Consultant</option>
+                                <option value="Product Designer">Product Designer</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Core Fields -->
+                    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                        <div class="space-y-3">
+                            <label class="text-xs font-black uppercase text-slate-400">Full Name</label>
+                            <input type="text" name="full_name" required placeholder="John Doe" class="form-input">
+                        </div>
+                        <div class="space-y-3">
+                            <label class="text-xs font-black uppercase text-slate-400">Email Address</label>
+                            <input type="email" name="email" required placeholder="john@example.com" class="form-input">
+                        </div>
+                        <div class="space-y-3">
+                            <label class="text-xs font-black uppercase text-slate-400">Phone Number</label>
+                            <input type="tel" name="phone" placeholder="+1 (000) 000-0000" class="form-input">
+                        </div>
+                    </div>
+
+                    <!-- Dynamic Fields for Candidates -->
+                    <div id="candidateFields" class="grid md:grid-cols-2 lg:grid-cols-3 gap-8 hidden">
+                        <div class="space-y-3">
+                            <label class="text-xs font-black uppercase text-slate-400">LinkedIn Profile URL</label>
+                            <input type="url" name="linkedin" placeholder="https://linkedin.com/in/..." class="form-input">
+                        </div>
+                        <div class="space-y-3">
+                            <label class="text-xs font-black uppercase text-slate-400">Visa Status / Work Auth</label>
+                            <input type="text" name="visa" placeholder="H1B, GC, Citizen, etc." class="form-input">
+                        </div>
+                        <div class="space-y-3">
+                            <label class="text-xs font-black uppercase text-slate-400">Current Salary (USD)</label>
+                            <input type="text" name="current_salary" placeholder="e.g. $120,000" class="form-input">
+                        </div>
+                    </div>
+
+                    <!-- Dynamic Fields for Clients -->
+                    <div id="clientFields" class="grid md:grid-cols-2 lg:grid-cols-3 gap-8 hidden">
+                        <div class="space-y-3">
+                            <label class="text-xs font-black uppercase text-slate-400">Company Name</label>
+                            <input type="text" name="company" placeholder="Enterprise Inc." class="form-input">
+                        </div>
+                        <div class="space-y-3">
+                            <label class="text-xs font-black uppercase text-slate-400">Required Skills</label>
+                            <input type="text" name="required_skills" placeholder="Java, AWS, SQL" class="form-input">
+                        </div>
+                        <div class="space-y-3">
+                            <label class="text-xs font-black uppercase text-slate-400">Positions Required</label>
+                            <input type="number" name="positions_count" placeholder="3" class="form-input">
+                        </div>
+                    </div>
+
+                    <!-- Resume Upload Section -->
+                    <div class="space-y-3">
+                        <label class="text-xs font-black uppercase text-blue-600 tracking-widest">Resume / Project Brief (PDF, DOCX)</label>
+                        <div class="relative w-full h-32 border-2 border-dashed border-slate-200 rounded-3xl flex items-center justify-center bg-white hover:border-blue-500 transition-colors">
+                            <input type="file" name="attachment" class="absolute inset-0 opacity-0 cursor-pointer">
+                            <div class="text-center">
+                                <i data-lucide="upload-cloud" class="w-8 h-8 text-blue-600 mx-auto mb-2"></i>
+                                <p class="text-xs font-bold text-slate-400">Drag & Drop or Click to Upload</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Message -->
+                    <div class="space-y-3">
+                        <label class="text-xs font-black uppercase text-slate-400">Additional Information / Cover Note</label>
+                        <textarea name="message" rows="4" placeholder="Tell us more about your requirements or expertise..." class="form-input"></textarea>
+                    </div>
+
+                    <button type="submit" class="w-full bg-blue-600 py-6 rounded-2xl text-white font-black text-xl hover:bg-slate-900 transition-all shadow-xl shadow-blue-100 flex items-center justify-center gap-4">
+                        Submit Enterprise Inquiry <i data-lucide="send"></i>
+                    </button>
+                    <p class="text-[10px] text-center text-slate-400 uppercase tracking-widest font-black">Submissions are delivered directly to our executive recruiting inbox.</p>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- FINAL CTA -->
+    <section class="py-20 bg-blue-600 relative overflow-hidden">
+        <div class="absolute inset-0 bg-[linear-gradient(45deg,#2563eb_25%,#1e40af_25%,#1e40af_50%,#2563eb_50%,#2563eb_75%,#1e40af_75%,#1e40af_100%)] bg-[length:100px_100px] opacity-10"></div>
+        <div class="max-w-7xl mx-auto px-6 relative z-10 text-center text-white">
+            <h3 class="reveal text-4xl md:text-6xl font-black mb-8">Ready to Scale Your Teams?</h3>
+            <div class="reveal flex flex-col sm:flex-row justify-center gap-6">
+                <a href="#contact-center" class="bg-white text-blue-600 px-10 py-5 rounded-2xl font-black hover:bg-slate-900 hover:text-white transition-all shadow-xl">Hire Top Talent</a>
+                <a href="#jobs-portal" class="bg-blue-800/50 backdrop-blur-md text-white border border-white/20 px-10 py-5 rounded-2xl font-black hover:bg-white hover:text-blue-600 transition-all">Join Our Bench</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- CONTACT FOOTER (ORIGINAL AS REQUESTED) -->
+    <footer id="contact" class="pt-32 pb-16 bg-white relative border-t border-slate-100">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="grid lg:grid-cols-2 gap-20 items-start mb-32 reveal">
+                <div>
+                    <h3 class="text-5xl font-black text-slate-900 mb-10">Join Us on Our Journey</h3>
+                    <p class="text-slate-500 text-xl mb-12">Whether you are a client seeking skilled professionals or a consultant ready to embark on your next project, Deel Technologies welcomes you.</p>
+                    
+                    <div class="space-y-8">
+                        <div class="flex items-center gap-6 group">
+                            <div class="w-16 h-16 bg-blue-50 text-blue-600 rounded-2xl flex items-center justify-center group-hover:bg-blue-600 group-hover:text-white transition-all shadow-sm"><i data-lucide="mail"></i></div>
+                            <span class="text-xl font-bold text-slate-900">contact@deeltechnologies.com</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="bg-slate-50 p-12 rounded-[50px] shadow-sm border border-slate-200">
+                    <form class="space-y-6">
+                        <div class="grid md:grid-cols-2 gap-6">
+                            <input type="text" placeholder="Your Name" class="w-full bg-white border border-slate-200 p-5 rounded-2xl outline-none focus:border-blue-600 transition-all">
+                            <input type="email" placeholder="Email Address" class="w-full bg-white border border-slate-200 p-5 rounded-2xl outline-none focus:border-blue-600 transition-all">
+                        </div>
+                        <textarea placeholder="Tell us about your needs..." rows="5" class="w-full bg-white border border-slate-200 p-5 rounded-2xl outline-none focus:border-blue-600 transition-all"></textarea>
+                        <button class="w-full bg-blue-600 py-6 rounded-2xl text-white font-black text-lg hover:bg-slate-900 transition-all shadow-xl shadow-blue-100">Connect with Us Today</button>
+                    </form>
+                </div>
+            </div>
+
+            <div class="flex flex-col md:flex-row justify-between items-center gap-8 pt-16 border-t border-slate-100 text-slate-400 text-sm font-bold uppercase tracking-widest">
+                <p>&copy; 2024 Deel Technologies. All Rights Reserved.</p>
+                <div class="flex gap-10">
+                    <a href="#" class="hover:text-blue-600 transition-colors">Privacy Policy</a>
+                    <a href="#" class="hover:text-blue-600 transition-colors">Terms of Service</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        lucide.createIcons();
+        gsap.registerPlugin(ScrollTrigger);
+
+        // --- LENIS SMOOTH SCROLL ---
+        const lenis = new Lenis({
+            duration: 1.2,
+            easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t))
+        });
+        function raf(time) {
+            lenis.raf(time);
+            requestAnimationFrame(raf);
+        }
+        requestAnimationFrame(raf);
+
+        // --- SCROLL PROGRESS BAR ---
+        window.addEventListener('scroll', () => {
+            const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrolled = (winScroll / height) * 100;
+            document.getElementById("scroll-progress").style.width = scrolled + "%";
+        });
+
+        // --- REVEAL ON SCROLL ---
+        document.querySelectorAll('.reveal').forEach((el) => {
+            gsap.to(el, {
+                opacity: 1, y: 0, duration: 1, ease: "power3.out",
+                scrollTrigger: { trigger: el, start: "top 85%" }
+            });
+        });
+
+        // --- NUMBER COUNTER ANIMATION ---
+        document.querySelectorAll('.counter').forEach(counter => {
+            const target = parseInt(counter.getAttribute('data-target'));
+            gsap.to(counter, {
+                innerText: target,
+                duration: 2.5,
+                snap: { innerText: 1 },
+                scrollTrigger: {
+                    trigger: counter,
+                    start: "top 90%"
+                }
+            });
+        });
+
+        // --- FAQ ACCORDION LOGIC ---
+        document.querySelectorAll('.faq-item').forEach(item => {
+            item.addEventListener('click', () => {
+                const isActive = item.classList.contains('active');
+                document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('active'));
+                if (!isActive) item.classList.add('active');
+            });
+        });
+
+        // --- IMAGE CLIP PATH REVEAL ---
+        document.querySelectorAll('.img-reveal').forEach((el) => {
+            ScrollTrigger.create({
+                trigger: el, start: "top 80%",
+                onEnter: () => el.classList.add('active')
+            });
+        });
+
+        // --- CUSTOM CURSOR ---
+        const cursor = document.getElementById('custom-cursor');
+        window.addEventListener('mousemove', e => {
+            gsap.to(cursor, { x: e.clientX - 10, y: e.clientY - 10, duration: 0.1 });
+        });
+
+        document.querySelectorAll('a, button, .bento-grid-item, .faq-item, .premium-job-card').forEach(el => {
+            el.addEventListener('mouseenter', () => cursor.style.transform = 'scale(2.5)');
+            el.addEventListener('mouseleave', () => cursor.style.transform = 'scale(1)');
+        });
+
+        // --- NAVBAR HIDE/SHOW ---
+        let lastScroll = 0;
+        window.addEventListener('scroll', () => {
+            const current = window.pageYOffset;
+            const nav = document.getElementById('navbar');
+            if (current > lastScroll && current > 100) {
+                nav.style.transform = 'translateY(-100%)';
+            } else {
+                nav.style.transform = 'translateY(0)';
+            }
+            lastScroll = current;
+        });
+
+        // --- NEW: FORM DYNAMIC LOGIC ---
+        const inquiryType = document.getElementById('inquiryType');
+        const candidateFields = document.getElementById('candidateFields');
+        const clientFields = document.getElementById('clientFields');
+        const posWrapper = document.getElementById('positionWrapper');
+
+        inquiryType.addEventListener('change', (e) => {
+            const val = e.target.value;
+            candidateFields.classList.add('hidden');
+            clientFields.classList.add('hidden');
+            posWrapper.classList.add('hidden');
+
+            if (val === 'job_application') {
+                candidateFields.classList.remove('hidden');
+                posWrapper.classList.remove('hidden');
+            } else if (val === 'staffing_request') {
+                clientFields.classList.remove('hidden');
+            }
+        });
+
+        // --- NEW: APPLY BUTTON LOGIC ---
+        function applyForJob(title) {
+            const select = document.getElementById('jobTitleSelect');
+            const typeSelect = document.getElementById('inquiryType');
+            
+            // Set values
+            select.value = title;
+            typeSelect.value = 'job_application';
+            
+            // Trigger UI change
+            candidateFields.classList.remove('hidden');
+            posWrapper.classList.remove('hidden');
+            clientFields.classList.add('hidden');
+            
+            // Scroll to Form
+            lenis.scrollTo('#contact-center', { offset: -100 });
+        }
+    </script>
+</body>
+</html>
